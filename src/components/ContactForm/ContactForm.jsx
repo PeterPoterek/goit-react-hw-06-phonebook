@@ -7,11 +7,12 @@ import {
 } from './ContactFormStyles';
 
 import { nanoid } from 'nanoid';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addContact } from '../../redux/store.js';
 
 const ContactForm = () => {
   const dispatch = useDispatch();
+  const contacts = useSelector(state => state.phonebook.contacts);
 
   const handleFormSubmit = e => {
     e.preventDefault();
@@ -24,18 +25,14 @@ const ContactForm = () => {
     const numberInputValue = numberInput.value;
     const numberPattern = new RegExp(numberInput.pattern);
 
-    // const isContactExists = state.contacts.some(
-    //   contact => contact.name.toLowerCase() === nameInputValue.toLowerCase()
-    // );
-
-    // if (isContactExists) {
-    //   alert(`${nameInputValue} is already in contacts.`);
-    //   return;
-    // }
+    const isContactExists = contacts.some(
+      contact => contact.name.toLowerCase() === nameInputValue.toLowerCase()
+    );
 
     if (
       namePattern.test(nameInputValue) &&
-      numberPattern.test(numberInputValue)
+      numberPattern.test(numberInputValue) &&
+      !isContactExists
     ) {
       const newContact = {
         id: `id-${nanoid()}`,
@@ -45,9 +42,12 @@ const ContactForm = () => {
 
       dispatch(addContact(newContact));
     } else {
-      const errorMessage = namePattern.test(nameInputValue)
+      const errorMessage = isContactExists
+        ? `${nameInputValue} is already in contacts.`
+        : namePattern.test(nameInputValue)
         ? numberInput.title
         : nameInput.title;
+
       alert(errorMessage);
     }
   };

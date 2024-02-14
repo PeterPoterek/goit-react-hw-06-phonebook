@@ -1,15 +1,35 @@
 import ContactListItem from 'components/ContactListItem/ContactListItem.jsx';
 import { ContactListContainer, ContactListUl } from './ContactListStyles';
 
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { removeContact } from '../../redux/store.js';
 
 const ContactList = () => {
+  const dispatch = useDispatch();
   const contacts = useSelector(state => state.phonebook.contacts);
+  const filter = useSelector(state => state.phonebook.filter);
 
-  console.log(contacts);
+  const handleRemoveContact = contactId => {
+    dispatch(removeContact(contactId));
+  };
+  const filteredContacts = contacts.filter(contact =>
+    contact.name.toLowerCase().includes(filter.toLowerCase())
+  );
   return (
     <ContactListContainer>
-      <ContactListUl>{}</ContactListUl>
+      <ContactListUl>
+        {filteredContacts.map(contact => {
+          return (
+            <ContactListItem
+              key={contact.id}
+              name={contact.name}
+              number={contact.number}
+              id={contact.id}
+              removeContact={() => handleRemoveContact(contact.id)}
+            />
+          );
+        })}
+      </ContactListUl>
     </ContactListContainer>
   );
 };

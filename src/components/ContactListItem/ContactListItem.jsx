@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 import {
   ContactListLi,
   ContactListName,
@@ -5,14 +7,23 @@ import {
   ContactListRemoveButton,
 } from './ContactListItemStyles';
 
-const ContactListItem = () => {
+const ContactListItem = ({ name, number, id, removeContact }) => {
   return (
     <ContactListLi>
-      <ContactListName>{}</ContactListName>
-      <ContactListNumber>{}</ContactListNumber>
-      <ContactListRemoveButton>Delete</ContactListRemoveButton>
+      <ContactListName>{name}</ContactListName>
+      <ContactListNumber>{number}</ContactListNumber>
+      <ContactListRemoveButton onClick={() => removeContact(id)}>
+        Delete
+      </ContactListRemoveButton>
     </ContactListLi>
   );
 };
 
 export default ContactListItem;
+
+ContactListItem.propTypes = {
+  name: PropTypes.string.isRequired,
+  number: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
+  removeContact: PropTypes.func.isRequired,
+};
