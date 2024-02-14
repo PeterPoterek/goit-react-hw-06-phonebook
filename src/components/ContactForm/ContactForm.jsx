@@ -1,5 +1,3 @@
-import PropTypes from 'prop-types';
-
 import {
   ContactFormContainer,
   ContactFormUI,
@@ -8,10 +6,55 @@ import {
   ContactFormAddButton,
 } from './ContactFormStyles';
 
-const ContactForm = ({ addContact }) => {
+import { nanoid } from 'nanoid';
+import { useDispatch } from 'react-redux';
+import { addContact } from '../../redux/store.js';
+
+const ContactForm = () => {
+  const dispatch = useDispatch();
+
+  const handleFormSubmit = e => {
+    e.preventDefault();
+
+    const nameInput = e.target[0];
+    const nameInputValue = nameInput.value;
+    const namePattern = new RegExp(nameInput.pattern);
+
+    const numberInput = e.target[1];
+    const numberInputValue = numberInput.value;
+    const numberPattern = new RegExp(numberInput.pattern);
+
+    // const isContactExists = state.contacts.some(
+    //   contact => contact.name.toLowerCase() === nameInputValue.toLowerCase()
+    // );
+
+    // if (isContactExists) {
+    //   alert(`${nameInputValue} is already in contacts.`);
+    //   return;
+    // }
+
+    if (
+      namePattern.test(nameInputValue) &&
+      numberPattern.test(numberInputValue)
+    ) {
+      const newContact = {
+        id: `id-${nanoid()}`,
+        name: nameInputValue,
+        number: numberInputValue,
+      };
+
+      dispatch(addContact(newContact));
+    } else {
+      const errorMessage = namePattern.test(nameInputValue)
+        ? numberInput.title
+        : nameInput.title;
+      alert(errorMessage);
+    }
+  };
+
   return (
     <ContactFormContainer>
-      <ContactFormUI onSubmit={addContact}>
+      <ContactFormUI onSubmit={handleFormSubmit}>
         <ContactFormLabel htmlFor="name">Name:</ContactFormLabel>
         <ContactFormInput
           id="name"
@@ -36,9 +79,6 @@ const ContactForm = ({ addContact }) => {
       </ContactFormUI>
     </ContactFormContainer>
   );
-};
-ContactForm.propTypes = {
-  addContact: PropTypes.func.isRequired,
 };
 
 export default ContactForm;
