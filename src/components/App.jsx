@@ -1,4 +1,3 @@
-import { nanoid } from 'nanoid';
 import styled from 'styled-components';
 
 import ContactForm from './ContactForm/ContactForm.jsx';
