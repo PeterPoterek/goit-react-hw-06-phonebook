@@ -8,7 +8,7 @@ import {
 
 import { nanoid } from 'nanoid';
 import { useDispatch, useSelector } from 'react-redux';
-import { addContact } from '../../redux/store.js';
+import { addContact } from '../../redux/phonebookSlice.js';
 
 const ContactForm = () => {
   const dispatch = useDispatch();

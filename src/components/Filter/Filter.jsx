@@ -1,5 +1,5 @@
 import { FilterContainer, FilterLabel, FilterInput } from './FilterStyles';
-import { setFilter } from '../../redux/store.js';
+import { setFilter } from '../../redux/phonebookSlice.js';
 import { useDispatch } from 'react-redux';
 
 const Filter = () => {
