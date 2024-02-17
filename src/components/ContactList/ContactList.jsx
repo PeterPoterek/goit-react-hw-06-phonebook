@@ -3,11 +3,12 @@ import { ContactListContainer, ContactListUl } from './ContactListStyles';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { removeContact } from '../../redux/phonebookSlice.js';
+import { selectContacts, selectFilter } from '../../redux/selectors.js';
 
 const ContactList = () => {
   const dispatch = useDispatch();
-  const contacts = useSelector(state => state.phonebook.contacts);
-  const filter = useSelector(state => state.phonebook.filter);
+  const contacts = useSelector(selectContacts);
+  const filter = useSelector(selectFilter);
 
   const handleRemoveContact = contactId => {
     dispatch(removeContact(contactId));

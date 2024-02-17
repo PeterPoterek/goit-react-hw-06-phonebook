@@ -9,10 +9,11 @@ import {
 import { nanoid } from 'nanoid';
 import { useDispatch, useSelector } from 'react-redux';
 import { addContact } from '../../redux/phonebookSlice.js';
+import { selectContacts } from '../../redux/selectors.js';
 
 const ContactForm = () => {
   const dispatch = useDispatch();
-  const contacts = useSelector(state => state.phonebook.contacts);
+  const contacts = useSelector(selectContacts);
 
   const handleFormSubmit = e => {
     e.preventDefault();
